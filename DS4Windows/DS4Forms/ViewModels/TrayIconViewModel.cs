@@ -29,10 +29,10 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 {
     public class TrayIconViewModel
     {
-        private string tooltipText = "DS4Windows";
+        private string tooltipText = "Pro DS4";
         private string iconSource;
-        public const string ballonTitle = "DS4Windows";
-        public static string trayTitle = $"DS4Windows v{Global.exeversion}";
+        public const string ballonTitle = "Pro DS4";
+        public static string trayTitle = $"Pro DS4 v{Global.displayVersion}";
         private ContextMenu contextMenu;
         private MenuItem changeServiceItem;
         private MenuItem openItem;
@@ -416,7 +416,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             Application.Current.Dispatcher.BeginInvoke(() =>
             {
-                TooltipText = "DS4Windows";
+                TooltipText = "Pro DS4";
             });
             //contextMenu.Items.Clear();
         }

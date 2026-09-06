@@ -48,7 +48,7 @@ jobs:
     - name: Post-Build script X64
       run: python .\utils\post-build.py .\bin\x64\Release\output . ${{env.VERSION}}
     - name: Publish release Build X64
-      run: gh release upload ${{ env.RELEASE_TAG }} .\bin\x64\Release\DS4Windows_${{env.VERSION}}_x64.zip
+      run: gh release upload ${{ env.RELEASE_TAG }} .\bin\x64\Release\ProDS4_${{env.VERSION}}_x64.zip
       env:
         GITHUB_TOKEN: ${{ github.TOKEN }}
     - name: Build X86
@@ -56,6 +56,6 @@ jobs:
     - name: Post-Build script X86
       run: python .\utils\post-build.py .\bin\x86\Release\output . ${{env.VERSION}}
     - name: Publish release Build X86
-      run: gh release upload ${{ env.RELEASE_TAG }} .\bin\x86\Release\DS4Windows_${{env.VERSION}}_x86.zip
+      run: gh release upload ${{ env.RELEASE_TAG }} .\bin\x86\Release\ProDS4_${{env.VERSION}}_x86.zip
       env:
         GITHUB_TOKEN: ${{ github.TOKEN }}

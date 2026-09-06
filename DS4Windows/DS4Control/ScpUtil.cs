@@ -558,6 +558,30 @@ namespace DS4Windows
         public static string exeFileName = Path.GetFileName(exelocation);
         public static FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(exelocation);
         public static string exeversion = fileVersion.FileVersion;
+        /// <summary>
+        /// exeversion with trailing ".0" components removed, keeping at least major.minor
+        /// (e.g. "1.0.0.0" -> "1.0", "1.1.2.0" -> "1.1.2"). Used for display only.
+        /// </summary>
+        public static string displayVersion = TrimVersionString(exeversion);
+
+        public static string TrimVersionString(string versionStr)
+        {
+            if (string.IsNullOrWhiteSpace(versionStr)) return versionStr;
+            string[] parts = versionStr.Trim().Split('.');
+            int keep = parts.Length;
+            while (keep > 2 && parts[keep - 1] == "0") keep--;
+            return string.Join('.', parts, 0, keep);
+        }
+
+        /// <summary>
+        /// Pads a version string to four components so "1.0" and "1.0.0.0" compare as equal.
+        /// Returns the input unchanged if it does not parse.
+        /// </summary>
+        public static string NormalizeVersionString(string versionStr)
+        {
+            if (!Version.TryParse(versionStr?.Trim(), out Version v)) return versionStr;
+            return new Version(v.Major, v.Minor, Math.Max(v.Build, 0), Math.Max(v.Revision, 0)).ToString();
+        }
         public static ulong exeversionLong = (ulong)fileVersion.ProductMajorPart << 48 |
             (ulong)fileVersion.ProductMinorPart << 32 | (ulong)fileVersion.ProductBuildPart << 16;
         public static ulong fullExeVersionLong = exeversionLong | (ushort)fileVersion.ProductPrivatePart;

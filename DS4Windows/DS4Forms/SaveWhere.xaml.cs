@@ -82,7 +82,7 @@ namespace DS4WinWPF.DS4Forms
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    MessageBox.Show("Cannot Delete old settings, please manaully delete", "DS4Windows");
+                    MessageBox.Show("Cannot Delete old settings, please manaully delete", "Pro DS4");
                 }
             }
             else if (!multisaves)

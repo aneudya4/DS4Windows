@@ -172,7 +172,7 @@ namespace DS4WinWPF
             if (firstRun && !CreateConfDirSkeleton())
             {
                 MessageBox.Show($"Cannot create config folder structure in {DS4Windows.Global.appdatapath}. Exiting",
-                    "DS4Windows", MessageBoxButton.OK, MessageBoxImage.Error);
+                    "Pro DS4", MessageBoxButton.OK, MessageBoxImage.Error);
                 Current.Shutdown(1);
                 return;
             }
@@ -327,7 +327,7 @@ namespace DS4WinWPF
         {
             if (!DS4Windows.Global.Save()) //if can't write to file
             {
-                if (MessageBox.Show("Cannot write at current location\nCopy Settings to appdata?", "DS4Windows",
+                if (MessageBox.Show("Cannot write at current location\nCopy Settings to appdata?", "Pro DS4",
                     MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     try
@@ -345,12 +345,12 @@ namespace DS4WinWPF
                     }
                     catch { }
                     MessageBox.Show("Copy complete, please relaunch DS4Windows and remove settings from Program Directory",
-                        "DS4Windows");
+                        "Pro DS4");
                 }
                 else
                 {
                     MessageBox.Show("DS4Windows cannot edit settings here, This will now close",
-                        "DS4Windows");
+                        "Pro DS4");
                 }
 
                 DS4Windows.Global.appdatapath = null;
@@ -409,7 +409,7 @@ namespace DS4WinWPF
             else if (parser.Command)
             {
                 IntPtr hWndDS4WindowsForm = IntPtr.Zero;
-                hWndDS4WindowsForm = FindWindow(ReadIPCClassNameMMF(), "DS4Windows");
+                hWndDS4WindowsForm = FindWindow(ReadIPCClassNameMMF(), "Pro DS4");
                 if (hWndDS4WindowsForm != IntPtr.Zero)
                 {
                     bool bDoSendMsg = true;
@@ -490,7 +490,7 @@ namespace DS4WinWPF
 
                 DS4Windows.Program.rootHub = rootHub;
                 requestClient = new HttpClient();
-                requestClient.DefaultRequestHeaders.Add("User-Agent", "DS4Windows");
+                requestClient.DefaultRequestHeaders.Add("User-Agent", "Pro DS4");
                 collectTimer = new Timer(GarbageTask, null, 30000, 30000);
 
             });
@@ -507,7 +507,7 @@ namespace DS4WinWPF
             {
                 DS4Windows.Program.rootHub = rootHub;
                 requestClient = new HttpClient();
-                requestClient.DefaultRequestHeaders.Add("User-Agent", "DS4Windows");
+                requestClient.DefaultRequestHeaders.Add("User-Agent", "Pro DS4");
                 collectTimer = new Timer(GarbageTask, null, 30000, 30000);
             });
             controlThread.Priority = ThreadPriority.Normal;

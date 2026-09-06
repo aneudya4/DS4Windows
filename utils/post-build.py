@@ -39,8 +39,8 @@ with open(newest_txt, 'w') as file:
     file.write(version)
 
 
-# rename target dir (net8.0-windows) to DS4Windows
-renamed_dir = target_dir.parent / "DS4Windows"
+# rename target dir (net8.0-windows) to ProDS4
+renamed_dir = target_dir.parent / "ProDS4"
 if renamed_dir.exists():
     shutil.rmtree(renamed_dir)
 
@@ -48,7 +48,7 @@ os.rename(target_dir, renamed_dir)
 
 # create a zip
 arch = target_dir.parents[1].name
-zip_name = f"DS4Windows_{version}_{arch}"
+zip_name = f"ProDS4_{version}_{arch}"
 target_zip_path = target_dir.parent / f"{zip_name}.zip"
 if target_zip_path.exists():
     os.remove(target_zip_path)

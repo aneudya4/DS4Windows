@@ -31,7 +31,7 @@ namespace DS4WinWPF.DS4Forms
             InitializeComponent();
 
             // About window header branding
-            headerLb.Content = $"DS4Windows v{Global.exeversion} (Created by DS4-Windows.com Team)";
+            headerLb.Content = $"Pro DS4 v{Global.displayVersion} (based on DS4Windows by the DS4-Windows.com Team)";
         }
 
 

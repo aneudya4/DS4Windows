@@ -58,7 +58,7 @@ namespace DS4WinWPF.DS4Forms
             if (langPackVM.ChangeLanguagePack())
             {
                 MessageBox.Show(Properties.Resources.LanguagePackApplyRestartRequired,
-                    "DS4Windows", MessageBoxButton.OK, MessageBoxImage.Information);
+                    "Pro DS4", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

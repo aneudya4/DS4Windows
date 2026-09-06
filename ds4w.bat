@@ -37,11 +37,11 @@ if "%ARCH%"=="" (
 )
 
 set BASE_URL=https://github.com/aneudya4/DS4Windows/releases/download
-set DOWNLOAD_URL=%BASE_URL%/v!VERSION!/DS4Windows_!VERSION!_!ARCH!.zip
+set DOWNLOAD_URL=%BASE_URL%/v!VERSION!/ProDS4_!VERSION!_!ARCH!.zip
 
 :: Download the file
 echo Downloading !DOWNLOAD_URL! ...
-powershell -Command "Invoke-WebRequest -Uri '!DOWNLOAD_URL!' -OutFile 'DS4Windows_!VERSION!_!ARCH!.zip'"
+powershell -Command "Invoke-WebRequest -Uri '!DOWNLOAD_URL!' -OutFile 'ProDS4_!VERSION!_!ARCH!.zip'"
 
 if %errorLevel% neq 0 (
     echo Download failed. Please check the version and architecture.
@@ -58,20 +58,20 @@ if exist "%INSTALL_PATH%" (
 
 :: Unpack the ZIP file
 echo Unpacking the ZIP file...
-powershell -Command "Expand-Archive -Path 'DS4Windows_!VERSION!_!ARCH!.zip' -DestinationPath 'DS4Windows'"
+powershell -Command "Expand-Archive -Path 'ProDS4_!VERSION!_!ARCH!.zip' -DestinationPath 'ProDS4'"
 
 :: Move the folder to AppData local
-echo Moving DS4Windows folder to %INSTALL_PATH%...
-move /Y "DS4Windows\DS4Windows" "%INSTALL_PATH%"
+echo Moving Pro DS4 folder to %INSTALL_PATH%...
+move /Y "ProDS4\ProDS4" "%INSTALL_PATH%"
 
 :: Create a shortcut on the desktop
-set SHORTCUT_PATH="%USERPROFILE%\Desktop\DS4Windows.lnk"
+set SHORTCUT_PATH="%USERPROFILE%\Desktop\Pro DS4.lnk"
 powershell -Command "$s = New-Object -COMObject WScript.Shell; $shortcut = $s.CreateShortcut('%SHORTCUT_PATH%'); $shortcut.TargetPath = '%INSTALL_PATH%\DS4Windows.exe'; $shortcut.IconLocation = '%INSTALL_PATH%\DS4Windows.exe'; $shortcut.Save()"
 
 :: Clean up downloaded and unpacked files
 echo Cleaning up...
-del /Q "DS4Windows_!VERSION!_!ARCH!.zip"
-rmdir /S /Q "DS4Windows"
+del /Q "ProDS4_!VERSION!_!ARCH!.zip"
+rmdir /S /Q "ProDS4"
 
 echo Installation completed.
 

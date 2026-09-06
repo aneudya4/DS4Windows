@@ -221,7 +221,7 @@ namespace DS4WinWPF.DS4Forms
                     }
                     catch
                     {
-                        Dispatcher.Invoke(() => MessageBox.Show(Strings.FailedToRetrieveLatestVersion, "DS4Windows Updater"));
+                        Dispatcher.Invoke(() => MessageBox.Show(Strings.FailedToRetrieveLatestVersion, "Pro DS4 Updater"));
                         // bubble the exception up to allow to see what's wrong in the log
                         throw;
                     }
@@ -296,11 +296,15 @@ namespace DS4WinWPF.DS4Forms
                 //newversion = "2.1.3";
             }
 
+            // Release tags are short ("1.0") while the exe reports four parts ("1.0.0.0");
+            // compare them as versions rather than as strings.
+            newversion = Global.NormalizeVersionString(newversion);
             ulong newversionNum = !string.IsNullOrEmpty(newversion) ?
                 Global.CompileVersionNumberFromString(newversion) : 0;
+            bool newerAvailable = Version.TryParse(version, out Version currentVer) &&
+                Version.TryParse(newversion, out Version latestVer) && latestVer > currentVer;
 
-            if (!string.IsNullOrWhiteSpace(newversion) && version.CompareTo(newversion) != 0 &&
-                lastVersionNum < newversionNum)
+            if (newerAvailable && lastVersionNum < newversionNum)
             {
                 MessageBoxResult result = MessageBoxResult.No;
                 Dispatcher.Invoke(() =>
@@ -354,7 +358,7 @@ namespace DS4WinWPF.DS4Forms
 
                 if (showstatus)
                 {
-                    Dispatcher.Invoke(() => MessageBox.Show(Properties.Resources.UpToDate, "DS4Windows Updater"));
+                    Dispatcher.Invoke(() => MessageBox.Show(Properties.Resources.UpToDate, "Pro DS4 Updater"));
                 }
             }
         }
@@ -1495,11 +1499,11 @@ Suspend support not enabled.", true);
                     if (Changelog.CheckNewerVersionExists(out var version, false))
                         DisplayUpdaterWindow(version.ToString());
                     else
-                        Dispatcher.Invoke(() => MessageBox.Show(Properties.Resources.UpToDate, "DS4Windows Updater"));
+                        Dispatcher.Invoke(() => MessageBox.Show(Properties.Resources.UpToDate, "Pro DS4 Updater"));
                 }
                 catch
                 {
-                    Dispatcher.Invoke(() => MessageBox.Show(Strings.FailedToRetrieveLatestVersion, "DS4Windows Updater"));
+                    Dispatcher.Invoke(() => MessageBox.Show(Strings.FailedToRetrieveLatestVersion, "Pro DS4 Updater"));
                     // bubble the exception up to allow to see what's wrong in the log
                     throw;
                 }

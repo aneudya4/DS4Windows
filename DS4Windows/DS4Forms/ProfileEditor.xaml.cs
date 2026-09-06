@@ -1041,7 +1041,7 @@ namespace DS4WinWPF.DS4Forms
                 else
                 {
                     MessageBox.Show("The app has to be restarted for DS3 gyro simulation to work.",
-                        "DS4Windows", MessageBoxButton.OK, MessageBoxImage.Information);
+                        "Pro DS4", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
 
@@ -1873,7 +1873,7 @@ namespace DS4WinWPF.DS4Forms
                 MessageBox.Show("Stick recalibration is only available if the profile editor is opened " +
                                 "with the Edit button next to the controller you want to recalibrate in the main " +
                                 "window.",
-                    "DS4Windows", MessageBoxButton.OK, MessageBoxImage.Information);
+                    "Pro DS4", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 

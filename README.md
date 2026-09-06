@@ -1,6 +1,8 @@
-# DS4Windows
+# Pro DS4
 
-Like those other DS4 tools, but sexier.
+A DS4Windows fork with an injected stick wobble option. Like those other DS4 tools, but sexier.
+
+Releases and builds: https://github.com/aneudya4/DS4Windows/releases
 
 DS4Windows is an extract anywhere program that allows you to get the best
 DualShock 4 experience on your PC. By emulating an Xbox 360 controller, many
