@@ -3,6 +3,15 @@ name: .NET Release
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build and upload to (e.g. v3.5.1)"
+        required: true
+        type: string
+
+env:
+  RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
 
 permissions:
   contents: write
@@ -15,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-           ref: ${{ github.event.release.tag_name }}
+           ref: ${{ env.RELEASE_TAG }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -28,7 +37,7 @@ jobs:
       run: dotnet restore
     - name: Set envars for versions
       run: | 
-        TAG=${{ github.event.release.tag_name }}
+        TAG=${{ env.RELEASE_TAG }}
         VERSION=${TAG#v}
         echo Version: $VERSION
         echo "VERSION=$VERSION" >> $GITHUB_ENV
@@ -39,7 +48,7 @@ jobs:
     - name: Post-Build script X64
       run: python .\utils\post-build.py .\bin\x64\Release\output . ${{env.VERSION}}
     - name: Publish release Build X64
-      run: gh release upload ${{github.event.release.tag_name}} .\bin\x64\Release\DS4Windows_${{env.VERSION}}_x64.zip
+      run: gh release upload ${{ env.RELEASE_TAG }} .\bin\x64\Release\DS4Windows_${{env.VERSION}}_x64.zip
       env:
         GITHUB_TOKEN: ${{ github.TOKEN }}
     - name: Build X86
@@ -47,6 +56,6 @@ jobs:
     - name: Post-Build script X86
       run: python .\utils\post-build.py .\bin\x86\Release\output . ${{env.VERSION}}
     - name: Publish release Build X86
-      run: gh release upload ${{github.event.release.tag_name}} .\bin\x86\Release\DS4Windows_${{env.VERSION}}_x86.zip
+      run: gh release upload ${{ env.RELEASE_TAG }} .\bin\x86\Release\DS4Windows_${{env.VERSION}}_x86.zip
       env:
         GITHUB_TOKEN: ${{ github.TOKEN }}
