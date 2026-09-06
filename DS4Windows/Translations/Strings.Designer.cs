@@ -3434,6 +3434,60 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Injected Wobble
+        /// </summary>
+        public static string StickWobble {
+            get {
+                return ResourceManager.GetString("StickWobble", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amplitude
+        /// </summary>
+        public static string StickWobbleAmplitude {
+            get {
+                return ResourceManager.GetString("StickWobbleAmplitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Peak wobble as a percentage of full stick travel. Set it slightly above the game&apos;s own deadzone (for example 8% for a 5% deadzone).
+        /// </summary>
+        public static string StickWobbleAmplitudeTooltip {
+            get {
+                return ResourceManager.GetString("StickWobbleAmplitudeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rate
+        /// </summary>
+        public static string StickWobbleRate {
+            get {
+                return ResourceManager.GetString("StickWobbleRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How many full wobble cycles are produced per second.
+        /// </summary>
+        public static string StickWobbleRateTooltip {
+            get {
+                return ResourceManager.GetString("StickWobbleRateTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds a small sine wave to the stick&apos;s X axis after the deadzone, curve and sensitivity settings are applied.
+        /// </summary>
+        public static string StickWobbleTooltip {
+            get {
+                return ResourceManager.GetString("StickWobbleTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fuzz specifies the minimum number of units the analog stick moves, in active zone, before the output is registered as changed in the mapper. This setting can be useful for worn sticks that cannot maintain a constant position. The value is expressed in raw stick units..
         /// </summary>
         public static string StickFuzzTooltip {

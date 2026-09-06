@@ -1334,6 +1334,42 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             set => Global.RSAntiSnapbackInfo[device].timeout = value;
         }
 
+        public bool LSWobble
+        {
+            get => Global.LSWobbleInfo[device].enabled;
+            set => Global.LSWobbleInfo[device].enabled = value;
+        }
+
+        public bool RSWobble
+        {
+            get => Global.RSWobbleInfo[device].enabled;
+            set => Global.RSWobbleInfo[device].enabled = value;
+        }
+
+        public double LSWobbleAmplitude
+        {
+            get => Global.LSWobbleInfo[device].amplitude;
+            set => Global.LSWobbleInfo[device].amplitude = value;
+        }
+
+        public double RSWobbleAmplitude
+        {
+            get => Global.RSWobbleInfo[device].amplitude;
+            set => Global.RSWobbleInfo[device].amplitude = value;
+        }
+
+        public double LSWobbleRate
+        {
+            get => Global.LSWobbleInfo[device].rate;
+            set => Global.LSWobbleInfo[device].rate = value;
+        }
+
+        public double RSWobbleRate
+        {
+            get => Global.RSWobbleInfo[device].rate;
+            set => Global.RSWobbleInfo[device].rate = value;
+        }
+
         public bool LSOuterBindInvert
         {
             get => Global.LSModInfo[device].outerBindInvert;

@@ -203,6 +203,12 @@ namespace DS4WindowsTests
   <RSAntiSnapbackDelta>135</RSAntiSnapbackDelta>
   <LSAntiSnapbackTimeout>50</LSAntiSnapbackTimeout>
   <RSAntiSnapbackTimeout>50</RSAntiSnapbackTimeout>
+  <LSWobble>False</LSWobble>
+  <RSWobble>False</RSWobble>
+  <LSWobbleAmplitude>8</LSWobbleAmplitude>
+  <RSWobbleAmplitude>8</RSWobbleAmplitude>
+  <LSWobbleRate>20</LSWobbleRate>
+  <RSWobbleRate>20</RSWobbleRate>
   <LSOutputMode>Controls</LSOutputMode>
   <RSOutputMode>Controls</RSOutputMode>
   <LSOutputSettings>
@@ -326,6 +332,48 @@ namespace DS4WindowsTests
 
             // Stopping point. Hard dependency on ControlService class
             //Mapping.MapCustom(ind, cState, tempMapState, ExposedState[ind], touchPad[ind], this);
+        }
+
+        [TestMethod]
+        public void StickWobbleOffsetsXAxisOnly()
+        {
+            // Quarter cycle: sin(pi/2) = 1 -> full amplitude. 8% of 127 = 10.16 -> 10 units.
+            Mapping.CalcStickWobble(8.0, Math.PI / 2.0, 128, 128, out byte outX, out byte outY);
+            Assert.AreEqual(138, outX);
+            Assert.AreEqual(128, outY);
+
+            // Three quarter cycle: sin(3pi/2) = -1 -> full negative amplitude.
+            Mapping.CalcStickWobble(8.0, 3.0 * Math.PI / 2.0, 128, 200, out outX, out outY);
+            Assert.AreEqual(118, outX);
+            Assert.AreEqual(200, outY);
+
+            // Zero crossing leaves the stick untouched.
+            Mapping.CalcStickWobble(8.0, 0.0, 77, 33, out outX, out outY);
+            Assert.AreEqual(77, outX);
+            Assert.AreEqual(33, outY);
+        }
+
+        [TestMethod]
+        public void StickWobbleClampsToAxisRange()
+        {
+            Mapping.CalcStickWobble(100.0, Math.PI / 2.0, 250, 128, out byte outX, out _);
+            Assert.AreEqual(255, outX);
+
+            Mapping.CalcStickWobble(100.0, 3.0 * Math.PI / 2.0, 5, 128, out outX, out _);
+            Assert.AreEqual(0, outX);
+        }
+
+        [TestMethod]
+        public void StickWobblePhaseAdvancesAndWraps()
+        {
+            // 20 Hz for 25 ms is half a cycle.
+            double phase = Mapping.AdvanceStickWobblePhase(0.0, 20.0, 0.025);
+            Assert.AreEqual(Math.PI, phase, 1e-9);
+
+            // A further full cycle wraps and lands on the same phase.
+            phase = Mapping.AdvanceStickWobblePhase(phase, 20.0, 0.05);
+            Assert.AreEqual(Math.PI, phase, 1e-9);
+            Assert.IsTrue(phase < 2.0 * Math.PI);
         }
     }
 }

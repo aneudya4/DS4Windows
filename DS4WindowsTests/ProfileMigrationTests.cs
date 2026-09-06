@@ -269,6 +269,12 @@ namespace DS4WindowsTests
   <RSAntiSnapbackDelta>135</RSAntiSnapbackDelta>
   <LSAntiSnapbackTimeout>50</LSAntiSnapbackTimeout>
   <RSAntiSnapbackTimeout>50</RSAntiSnapbackTimeout>
+  <LSWobble>False</LSWobble>
+  <RSWobble>False</RSWobble>
+  <LSWobbleAmplitude>8</LSWobbleAmplitude>
+  <RSWobbleAmplitude>8</RSWobbleAmplitude>
+  <LSWobbleRate>20</LSWobbleRate>
+  <RSWobbleRate>20</RSWobbleRate>
   <LSOutputMode>Controls</LSOutputMode>
   <RSOutputMode>Controls</RSOutputMode>
   <LSOutputSettings>

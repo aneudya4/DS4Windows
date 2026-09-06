@@ -120,6 +120,36 @@ namespace DS4Windows
         public int timeout = DEFAULT_TIMEOUT;
     }
 
+    /// <summary>
+    /// Settings for a periodic wobble that is added to a stick's output after
+    /// deadzone, curve and sensitivity processing. The wobble keeps the value
+    /// the virtual pad reports outside a game's deadzone even while the
+    /// physical stick rests at center.
+    /// </summary>
+    public class StickWobbleInfo
+    {
+        public const bool DEFAULT_ENABLED = false;
+        /// <summary>Peak wobble, in percent of full axis travel (0-100)</summary>
+        public const double DEFAULT_AMPLITUDE = 8.0;
+        /// <summary>Wobble frequency in Hz</summary>
+        public const double DEFAULT_RATE = 20.0;
+        public const double MIN_AMPLITUDE = 0.0;
+        public const double MAX_AMPLITUDE = 100.0;
+        public const double MIN_RATE = 0.1;
+        public const double MAX_RATE = 100.0;
+
+        public bool enabled = DEFAULT_ENABLED;
+        public double amplitude = DEFAULT_AMPLITUDE;
+        public double rate = DEFAULT_RATE;
+
+        public void Reset()
+        {
+            enabled = DEFAULT_ENABLED;
+            amplitude = DEFAULT_AMPLITUDE;
+            rate = DEFAULT_RATE;
+        }
+    }
+
     public class TriggerDeadZoneZInfo
     {
         public const int DEFAULT_MAX_ZONE = 100;

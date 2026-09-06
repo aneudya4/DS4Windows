@@ -326,6 +326,17 @@ namespace DS4Windows
 
         public static byte[] gyroStickX = new byte[Global.MAX_DS4_CONTROLLER_COUNT] { 128, 128, 128, 128, 128, 128, 128, 128 };
         public static byte[] gyroStickY = new byte[Global.MAX_DS4_CONTROLLER_COUNT] { 128, 128, 128, 128, 128, 128, 128, 128 };
+
+        // Injected stick wobble state. Index 0 = LS, 1 = RS. Sized with the
+        // test profile slot included so the profile editor preview can use it.
+        private static readonly double[][] stickWobblePhase = new double[2][]
+        {
+            new double[Global.TEST_PROFILE_ITEM_COUNT], new double[Global.TEST_PROFILE_ITEM_COUNT],
+        };
+        private static readonly long[][] stickWobbleLastTimestamp = new long[2][]
+        {
+            new long[Global.TEST_PROFILE_ITEM_COUNT], new long[Global.TEST_PROFILE_ITEM_COUNT],
+        };
         //public static byte[] touchStickX = new byte[Global.MAX_DS4_CONTROLLER_COUNT] { 128, 128, 128, 128, 128, 128, 128, 128 };
         //public static byte[] touchStickY = new byte[Global.MAX_DS4_CONTROLLER_COUNT] { 128, 128, 128, 128, 128, 128, 128, 128 };
         public static PostMapStickData[] mapStickActionData = new PostMapStickData[Global.MAX_DS4_CONTROLLER_COUNT]
@@ -2288,7 +2299,78 @@ namespace DS4Windows
                 }
             }
 
+            // Injected wobble is added last so it survives deadzone, curve and
+            // sensitivity processing and reaches the virtual pad unchanged.
+            StickWobbleInfo lsWobble = GetLSWobbleInfo(device);
+            if (lsWobble.enabled && lsWobble.amplitude > 0.0)
+            {
+                ApplyStickWobble(device, 0, lsWobble, dState.LX, dState.LY, out dState.LX, out dState.LY);
+            }
+
+            StickWobbleInfo rsWobble = GetRSWobbleInfo(device);
+            if (rsWobble.enabled && rsWobble.amplitude > 0.0)
+            {
+                ApplyStickWobble(device, 1, rsWobble, dState.RX, dState.RY, out dState.RX, out dState.RY);
+            }
+
             return dState;
+        }
+
+        /// <summary>
+        /// Advances the wobble oscillator for a stick using wall clock time and
+        /// adds the resulting offset to the stick's X axis.
+        /// </summary>
+        /// <param name="device">Profile slot</param>
+        /// <param name="stickId">0 for the left stick, 1 for the right stick</param>
+        private static void ApplyStickWobble(int device, int stickId, StickWobbleInfo wobble,
+            byte inX, byte inY, out byte outX, out byte outY)
+        {
+            long now = Stopwatch.GetTimestamp();
+            long last = stickWobbleLastTimestamp[stickId][device];
+            stickWobbleLastTimestamp[stickId][device] = now;
+
+            double phase = stickWobblePhase[stickId][device];
+            if (last != 0)
+            {
+                double dt = (now - last) / (double)Stopwatch.Frequency;
+                // A stall (profile reload, controller reconnect) should not spin the phase forward.
+                if (dt > 0.0 && dt < 1.0)
+                {
+                    phase = AdvanceStickWobblePhase(phase, wobble.rate, dt);
+                }
+            }
+
+            stickWobblePhase[stickId][device] = phase;
+            CalcStickWobble(wobble.amplitude, phase, inX, inY, out outX, out outY);
+        }
+
+        /// <summary>
+        /// Advances an oscillator phase by <paramref name="dt"/> seconds at <paramref name="rateHz"/>,
+        /// keeping the result inside [0, 2π).
+        /// </summary>
+        public static double AdvanceStickWobblePhase(double phase, double rateHz, double dt)
+        {
+            double rate = Math.Clamp(rateHz, StickWobbleInfo.MIN_RATE, StickWobbleInfo.MAX_RATE);
+            phase += 2.0 * Math.PI * rate * dt;
+            if (phase >= 2.0 * Math.PI)
+            {
+                phase %= 2.0 * Math.PI;
+            }
+
+            return phase;
+        }
+
+        /// <summary>
+        /// Adds a sine wobble of <paramref name="amplitudePercent"/> percent of full
+        /// axis travel to the X axis of a stick. Y is passed through untouched.
+        /// </summary>
+        public static void CalcStickWobble(double amplitudePercent, double phase,
+            byte inX, byte inY, out byte outX, out byte outY)
+        {
+            double amplitude = Math.Clamp(amplitudePercent, StickWobbleInfo.MIN_AMPLITUDE, StickWobbleInfo.MAX_AMPLITUDE);
+            double offset = Math.Sin(phase) * (amplitude / 100.0) * 127.0;
+            outX = (byte)Math.Clamp((int)Math.Round(inX + offset), 0, 255);
+            outY = inY;
         }
 
         public static DS4State ApplyStickCalibration(int device, DS4State state)

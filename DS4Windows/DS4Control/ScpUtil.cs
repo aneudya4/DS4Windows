@@ -2542,6 +2542,18 @@ namespace DS4Windows
             return m_Config.rsAntiSnapbackInfo[device];
         }
 
+        public static StickWobbleInfo[] LSWobbleInfo => m_Config.lsWobbleInfo;
+        public static StickWobbleInfo GetLSWobbleInfo(int device)
+        {
+            return m_Config.lsWobbleInfo[device];
+        }
+
+        public static StickWobbleInfo[] RSWobbleInfo => m_Config.rsWobbleInfo;
+        public static StickWobbleInfo GetRSWobbleInfo(int device)
+        {
+            return m_Config.rsWobbleInfo[device];
+        }
+
         public static StickOutputSetting[] LSOutputSettings => m_Config.lsOutputSettings;
         public static StickOutputSetting[] RSOutputSettings => m_Config.rsOutputSettings;
 
@@ -3594,6 +3606,24 @@ namespace DS4Windows
             new StickAntiSnapbackInfo(), new StickAntiSnapbackInfo(),
             new StickAntiSnapbackInfo(), new StickAntiSnapbackInfo(),
             new StickAntiSnapbackInfo(),
+        };
+
+        public StickWobbleInfo[] lsWobbleInfo = new StickWobbleInfo[Global.TEST_PROFILE_ITEM_COUNT]
+        {
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(),
+        };
+
+        public StickWobbleInfo[] rsWobbleInfo = new StickWobbleInfo[Global.TEST_PROFILE_ITEM_COUNT]
+        {
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(), new StickWobbleInfo(),
+            new StickWobbleInfo(),
         };
 
         public StickOutputSetting[] lsOutputSettings = new StickOutputSetting[Global.TEST_PROFILE_ITEM_COUNT]
@@ -9661,6 +9691,8 @@ namespace DS4Windows
             lsAntiSnapbackInfo[device].timeout = StickAntiSnapbackInfo.DEFAULT_TIMEOUT;
             lsAntiSnapbackInfo[device].delta = StickAntiSnapbackInfo.DEFAULT_DELTA;
             lsAntiSnapbackInfo[device].enabled = StickAntiSnapbackInfo.DEFAULT_ENABLED;
+            lsWobbleInfo[device].Reset();
+            rsWobbleInfo[device].Reset();
             setLsOutCurveMode(device, 0);
             setRsOutCurveMode(device, 0);
             setL2OutCurveMode(device, 0);

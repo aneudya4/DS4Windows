@@ -1215,6 +1215,54 @@ namespace DS4WinWPF.DS4Control.DTOXml
             set => _rsAntiSnapbackTimeout = value;
         }
 
+        private bool _lsWobble = StickWobbleInfo.DEFAULT_ENABLED;
+        [XmlElement("LSWobble")]
+        public string LSWobbleString
+        {
+            get => _lsWobble.ToString();
+            set => _lsWobble = XmlDataUtilities.StrToBool(value);
+        }
+
+        private bool _rsWobble = StickWobbleInfo.DEFAULT_ENABLED;
+        [XmlElement("RSWobble")]
+        public string RSWobbleString
+        {
+            get => _rsWobble.ToString();
+            set => _rsWobble = XmlDataUtilities.StrToBool(value);
+        }
+
+        private double _lsWobbleAmplitude = StickWobbleInfo.DEFAULT_AMPLITUDE;
+        [XmlElement("LSWobbleAmplitude")]
+        public double LSWobbleAmplitude
+        {
+            get => _lsWobbleAmplitude;
+            set => _lsWobbleAmplitude = Math.Clamp(value, StickWobbleInfo.MIN_AMPLITUDE, StickWobbleInfo.MAX_AMPLITUDE);
+        }
+
+        private double _rsWobbleAmplitude = StickWobbleInfo.DEFAULT_AMPLITUDE;
+        [XmlElement("RSWobbleAmplitude")]
+        public double RSWobbleAmplitude
+        {
+            get => _rsWobbleAmplitude;
+            set => _rsWobbleAmplitude = Math.Clamp(value, StickWobbleInfo.MIN_AMPLITUDE, StickWobbleInfo.MAX_AMPLITUDE);
+        }
+
+        private double _lsWobbleRate = StickWobbleInfo.DEFAULT_RATE;
+        [XmlElement("LSWobbleRate")]
+        public double LSWobbleRate
+        {
+            get => _lsWobbleRate;
+            set => _lsWobbleRate = Math.Clamp(value, StickWobbleInfo.MIN_RATE, StickWobbleInfo.MAX_RATE);
+        }
+
+        private double _rsWobbleRate = StickWobbleInfo.DEFAULT_RATE;
+        [XmlElement("RSWobbleRate")]
+        public double RSWobbleRate
+        {
+            get => _rsWobbleRate;
+            set => _rsWobbleRate = Math.Clamp(value, StickWobbleInfo.MIN_RATE, StickWobbleInfo.MAX_RATE);
+        }
+
         [XmlElement("LSOutputMode")]
         public StickMode LSOutputMode
         {
@@ -1695,6 +1743,12 @@ namespace DS4WinWPF.DS4Control.DTOXml
             RSAntiSnapbackDelta = source.rsAntiSnapbackInfo[deviceIndex].delta;
             LSAntiSnapbackTimeout = source.lsAntiSnapbackInfo[deviceIndex].timeout;
             RSAntiSnapbackTimeout = source.rsAntiSnapbackInfo[deviceIndex].timeout;
+            _lsWobble = source.lsWobbleInfo[deviceIndex].enabled;
+            _rsWobble = source.rsWobbleInfo[deviceIndex].enabled;
+            LSWobbleAmplitude = source.lsWobbleInfo[deviceIndex].amplitude;
+            RSWobbleAmplitude = source.rsWobbleInfo[deviceIndex].amplitude;
+            LSWobbleRate = source.lsWobbleInfo[deviceIndex].rate;
+            RSWobbleRate = source.rsWobbleInfo[deviceIndex].rate;
             LSOutputMode = source.lsOutputSettings[deviceIndex].mode;
             RSOutputMode = source.rsOutputSettings[deviceIndex].mode;
             LSOutputSettings = new StickModeOutputSettings()
@@ -2303,6 +2357,12 @@ namespace DS4WinWPF.DS4Control.DTOXml
             destination.rsAntiSnapbackInfo[deviceIndex].delta = RSAntiSnapbackDelta;
             destination.lsAntiSnapbackInfo[deviceIndex].timeout = LSAntiSnapbackTimeout;
             destination.rsAntiSnapbackInfo[deviceIndex].timeout = RSAntiSnapbackTimeout;
+            destination.lsWobbleInfo[deviceIndex].enabled = _lsWobble;
+            destination.rsWobbleInfo[deviceIndex].enabled = _rsWobble;
+            destination.lsWobbleInfo[deviceIndex].amplitude = LSWobbleAmplitude;
+            destination.rsWobbleInfo[deviceIndex].amplitude = RSWobbleAmplitude;
+            destination.lsWobbleInfo[deviceIndex].rate = LSWobbleRate;
+            destination.rsWobbleInfo[deviceIndex].rate = RSWobbleRate;
             destination.lsOutputSettings[deviceIndex].mode = LSOutputMode;
             destination.rsOutputSettings[deviceIndex].mode = RSOutputMode;
 

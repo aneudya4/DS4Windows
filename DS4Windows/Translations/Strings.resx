@@ -1430,6 +1430,24 @@ Please click OK to confirm that you have read the message. Press Cancel to be re
   <data name="AutomaticallyRecalibrateStick" xml:space="preserve">
     <value>Automatically recalibrate stick</value>
   </data>
+  <data name="StickWobble" xml:space="preserve">
+    <value>Injected Wobble</value>
+  </data>
+  <data name="StickWobbleTooltip" xml:space="preserve">
+    <value>Adds a small sine wave to the stick's X axis after the deadzone, curve and sensitivity settings are applied. The virtual pad then never reports the stick as fully at rest, so a game that only enables rotational aim assist while the stick is outside its deadzone keeps it enabled while your thumb is still. This is injected input the game cannot tell apart from your own movement; leave it off unless you understand and accept that.</value>
+  </data>
+  <data name="StickWobbleAmplitude" xml:space="preserve">
+    <value>Amplitude</value>
+  </data>
+  <data name="StickWobbleAmplitudeTooltip" xml:space="preserve">
+    <value>Peak wobble as a percentage of full stick travel. Set it slightly above the game's own deadzone (for example 8% for a 5% deadzone).</value>
+  </data>
+  <data name="StickWobbleRate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
+  <data name="StickWobbleRateTooltip" xml:space="preserve">
+    <value>How many full wobble cycles are produced per second.</value>
+  </data>
   <data name="ProcessPriority" xml:space="preserve">
     <value>Process priority</value>
   </data>
