@@ -104,7 +104,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public void DownloadUpstreamVersionInfo()
         {
             // Sorry other devs, gonna have to find your own server
-            Uri url = new Uri("https://api.github.com/repos/schmaldeo/DS4Windows/releases/latest");
+            Uri url = new Uri("https://api.github.com/repos/aneudya4/DS4Windows/releases/latest");
             string filename = Global.appdatapath + "\\version.txt";
             bool success = false;
             using (StreamWriter streamWriter = new(filename, false))
